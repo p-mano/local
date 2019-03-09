@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+<body>
+    <script>
+    getPersons= function(){
+    var personList=[];
+    if(localStorage.getItem('persons') !=null){
+        personList=JSON.parse(localStorage.getItem('persons'));
+    }
+    return personList;
+}
+addPerson=function(name,email,phone,address){
+var personList=getPersons();
+var person={};
+person.name=name;
+person.email=email;
+person.phone=phone;
+person.address=address;
+personList.push(person);
+console.log('email :' + name);
+console.log('email :' + email);
+console.log('email :' + phone);
+console.log('email :' + address);
+localStorage.setItem('persons',JSON.stringify(personList));
+}
+addPerson('mano','mano@email.com','132456','india');
+deleteAllPerson= function(){
+localStorage.clear('persons');
+console.log("empty:" + localStorage.getItem('persons') );
+}
+
+showPerson=function(){
+    var personList=getPersons();
+    console.log('list :' + personList.length);
+    if(personList>0){
+        console.log(personList.length);
+        for(var i=0;i<personList.length;i++){
+            console.log('name'+ personList[i].name + personList[i].email + personList[i].phone + personList[i].address)
+        }
+    }
+
+}
+deletePerson= function(){
+
+    localStorage.getItem('persons',JSON.parse(personList));
+    persons.pop();
+    localStorage.setItem('persons',JSON.stringify(personList));
+    console.log('updated list :' +localStorage.getItem('persons'));
+}
+
+
+
+            
+            </script>
+<p>person list</p>
+</body>
+<form>
+        <input type="button" onclick="deleteAllPerson()" value="delete all">
+        <input type="button" onclick="showPerson()" value="show person">
+        <input type="button" onclick="getPersons()" value="get person">
+        <input type="button" onclick="deletePerson()" value="delete person"><br>
+    <input type="text" name="name" placeholder="name"><br>
+    <input type="text" name="email" placeholder="email"><br>
+    <input type="text" name="phone" placeholder="phone"><br>
+    <input type="text" name="address" placeholder="address"><br>
+    <input type="button" value="add user" onclick="addPerson(name.value,email.value,phone.value,address.value)">
+    
+</form>
+
+</html>

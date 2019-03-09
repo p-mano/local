@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+       
+            <body>
+                
+                <table style="width:100%;" id="tbl"> 
+<tr> 
+    <td> Id:</td> 
+    <td> 
+        <input id="txtpid" type="text"  class="c1"/></td> 
+</tr> 
+<tr> 
+    <td>Person Name:</td> 
+    <td> 
+        <input id="txtpname" type="text" class="c1" /></td> 
+</tr> 
+<tr> 
+    <td>Address:</td> 
+    <td> 
+        <textarea id="txtpaddr" class="c1"></textarea></td> 
+</tr> 
+
+<tr> 
+    <td>Email:</td> 
+    <td> 
+        <input id="txtpemil" type="email" class="c1" /></td> 
+</tr> 
+
+<tr> 
+    <td>Mobile No:</td> 
+    <td> 
+        <input id="txtpmobile" type="tel" class="c1"/></td> 
+</tr> 
+
+<tr> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+</tr> 
+<tr> 
+    <td><input id="btnsave" type="button" value="Save" /></td> 
+    <td><input id="btnclear" type="button" value="Clear" /></td> 
+    <td><input id="btnclearstorage" type="button" value="Clear Storage" /></td> 
+</tr> 
+</table> 
+<div id="dvcontainer">
+</div> 
+    </body>
+    <script>
+            (function () { 
+//The Person Object used to store data in the LocalStorage 
+var Person = { 
+Id: 0, 
+Name: "", 
+Address: "", 
+Email: "", 
+Mobile: "", 
+};
+
+//JavaScript object containing methods for LocalStorage management 
+var applogic = {
+//Clear All Entries, by reading all elements having class as c1 
+clearuielements: function () { 
+    var inputs = document.getElementsByClassName("c1"); 
+    for (i = 0; i < inputs.length; i++) { 
+        inputs[i].value = ""; 
+    } 
+},
+//Save Entry in the Localstorage by eading values entered in the 
+//UI 
+saveitem: function () { 
+    var lscount = localStorage.length; //Get the Length of the LocalStorage
+    //Read all elements on UI using class name 
+    var inputs = document.getElementsByClassName("c1"); 
+            Person.Id = inputs[0].value; 
+            Person.Name = inputs[1].value; 
+            Person.Address = inputs[2].value; 
+            Person.Email = inputs[3].value; 
+            Person.Mobile = inputs[4].value; 
+            
+    //Convert the object into JSON ans store it in LocalStorage 
+            localStorage.setItem("Person_" + lscount, JSON.stringify(Person)); 
+    //Reload the Page 
+            location.reload(); 
+},
+//Method to Read Data from the local Storage 
+loaddata: function () { 
+    var datacount = localStorage.length; 
+    if (datacount > 0) 
+    { 
+        var render = "<table border='1'>"; 
+        render += "<tr><th>Id</th><th>Name</th><th>Address</th><th>email</th>” + “<th>mobile</th></tr>"; 
+        for (i = 0; i < datacount; i++) { 
+            var key = localStorage.key(i); //Get  the Key 
+            var person = localStorage.getItem(key); //Get Data from Key 
+            var data = JSON.parse(person); //Parse the Data back into the object 
+            
+            render += "<tr><td>" + data.Id  + console.log("id:" + data.Id) +"</td>"; 
+            render += "<td>" + data.Name + console.log("name:" +data.Name) + "</td>"; 
+            render += "<td>" + data.Address + console.log("Address:" +data.Address) +"</td>"; 
+            render += "<td>" + data.Email + console.log("Email:" +data.Email) + "</td>"; 
+            render += "<td>" + data.Mobile + console.log("Mobile:" +data.Mobile) +"</td></tr>"; 
+  
+        } 
+        render+="</table>"; 
+        dvcontainer.innerHTML = render; 
+    } 
+},
+//Method to Clear Storage 
+clearstorage: function () { 
+    var storagecount = localStorage.length; //Get the Storage Count 
+    if (storagecount > 0) 
+    { 
+        for (i = 0; i < storagecount; i++) { 
+            localStorage.clear(); 
+        } 
+    } 
+    window.location.reload(); 
+}
+};
+//Save object into the localstorage 
+var btnsave = document.getElementById('btnsave'); 
+btnsave.addEventListener('click', applogic.saveitem, false); 
+//Clear all UI Elements 
+var btnclear = document.getElementById('btnclear'); 
+btnclear.addEventListener('click', applogic.clearuielements, false); 
+//Clear LocalStorage 
+var btnclearstorage = document.getElementById('btnclearstorage'); 
+btnclearstorage.addEventListener('click', applogic.clearstorage, false); 
+//On Load of window load data from local storage 
+window.onload = function () { 
+applogic.loaddata(); 
+}; 
+})(); 
+
+            </script>
+</html>
